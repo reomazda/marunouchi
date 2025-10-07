@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>丸の内インベストメントグループ | 隠れたバリューを掘り起こし、再定義する</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0a1628;
+            --navy-light: #1a2942;
+            --gold: #d4af37;
+            --gold-dark: #b8941f;
+            --gray-dark: #2d3748;
+            --gray-light: #f7f9fc;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            color: var(--navy);
+            background: #ffffff;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', 'Noto Serif JP', serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gradient-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('./images/hero.png') center/cover;
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        .marunouchi-office-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .marunouchi-office-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 22, 40, 0.92), rgba(26, 41, 66, 0.88));
+            z-index: 1;
+        }
+
+        .marunouchi-office-section > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .gradient-bg > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            background: linear-gradient(to bottom, rgba(10, 22, 40, 0.95), rgba(10, 22, 40, 0.85));
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            max-width: 200px;
+            margin: 0 auto 3rem;
+        }
+
+        .card-premium {
+            background: white;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-premium:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(10, 22, 40, 0.15);
+            border-color: var(--gold);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-secondary {
+            background: white;
+            border: 2px solid var(--navy);
+            color: var(--navy);
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--navy);
+            color: white;
+        }
+
+        .gold-accent {
+            color: var(--gold);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold) 0%, #f4d47c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .fixed-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .parallax-section {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .text-shadow-premium {
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .number-circle {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--gold);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--navy);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .premium-shadow {
+            box-shadow: 0 10px 30px rgba(10, 22, 40, 0.1);
+        }
+
+        .image-overlay {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-overlay::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(10, 22, 40, 0.7) 0%, rgba(212, 175, 55, 0.3) 100%);
+        }
+
+        .tab-underline {
+            position: relative;
+        }
+
+        .tab-underline::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gold);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Data Configuration
+        const companyData = {
+            company: {
+                name: "丸の内インベストメントグループ株式会社",
+                nameShort: "MIG",
+                address: "東京都千代田区丸の内2-2-1 岸本ビル6F",
+                building: "岸本ビル（Kishimoto Building）",
+                station: "二重橋前駅 徒歩1分 / 東京駅 徒歩5分",
+                contacts: {
+                    email: "hi@reomazda.com",
+                    tel: "070-8444-3256"
+                }
+            },
+            thesis: {
+                concept: "隠れたバリューを掘り起こし、再定義する",
+                subConcept: "東京の一等地から、金融レバレッジ×AI×レガシー産業の統合を通じ、価値を最大化",
+                ipoOriented: true
+            },
+            kpis: [
+                { label: "平均クロージング", value: "5-14", unit: "営業日" },
+                { label: "買収レンジ", value: "~10", unit: "億円" },
+                { label: "資金調達実績", value: "1-数億", unit: "円規模" }
+            ],
+            strengths: [
+                {
+                    title: "YouTube・SEO領域の知見",
+                    description: "複数チャンネルを運営し、特定ジャンルでSEO1位を多数獲得",
+                    metric: "SEO 1位",
+                    metricDetail: "複数ジャンル"
+                },
+                {
+                    title: "デジタル集客のコスト効率",
+                    description: "月間広告コスト120万円規模で30件以上のリード獲得",
+                    metric: "30〜50%",
+                    metricDetail: "業界平均よりコスト削減"
+                },
+                {
+                    title: "採用力",
+                    description: "SES会社「エンジニアのミカタ（年商10億→40億）」への出資実績。採用単価を業界平均比▲30%",
+                    metric: "3倍",
+                    metricDetail: "含み益（現在）"
+                },
+                {
+                    title: "資金調達力",
+                    description: "月間30件以上の富裕層問合せチャネルを持つ「ドバイ総合研究所」を運営。複数の投資案件に対して、1〜数億円規模の調達実績あり",
+                    metric: "1〜数億円",
+                    metricDetail: "調達実績規模"
+                },
+                {
+                    title: "スピード",
+                    description: "M&A検討〜初回LOIまで最短5営業日",
+                    metric: "5営業日",
+                    metricDetail: "最短LOI提出"
+                }
+            ],
+            rollupStrategy: {
+                title: "レガシー産業ロールアップ戦略",
+                description: "清掃、建設、製造下請けといった従来型産業を、丸の内から段階的に統合。デジタル化とAI活用で収益性を高め、IPOを目指します。",
+                targetIndustries: [
+                    { name: "清掃", description: "ビル・オフィス清掃、定期清掃" },
+                    { name: "建設保全", description: "設備保全、メンテナンス" },
+                    { name: "製造下請け", description: "部品製造、組立加工" },
+                    { name: "相続・不動産", description: "相続関連サービス" }
+                ],
+                phases: [
+                    { phase: "Phase 1", title: "プラットフォーム企業買収", desc: "基幹となる収益性の高い企業を取得" },
+                    { phase: "Phase 2", title: "周辺企業の統合", desc: "同業・関連業種を段階的に買収し規模を拡大" },
+                    { phase: "Phase 3", title: "デジタル化・PMI", desc: "AI・システム導入で業務効率化と採用力強化" },
+                    { phase: "Phase 4", title: "IPO準備", desc: "ガバナンス整備と上場準備を伴走" }
+                ]
+            },
+            buybox: {
+                revenueMin: 0,
+                revenueMax: 10,
+                ebitdaMin: 0.05,
+                ebitdaMax: 1,
+                regions: ["全国（首都圏・中部・関西・北陸優先）"],
+                preferred: ["法人・準公共取引", "継続契約・下請けライン可視"],
+                exclusions: ["訴訟", "債務超過", "規制リスク高"]
+            },
+            synergy: [
+                {
+                    title: "デジタル集客",
+                    desc: "YouTube・SEO領域で複数チャンネル運営実績。特定ジャンルSEO1位多数獲得。宣伝費・広告費を大幅削減",
+                    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=800"
+                },
+                {
+                    title: "採用コスト削減",
+                    desc: "SES会社「エンジニアのミカタ」への出資実績（年商10億→40億）。採用単価を業界平均比▲30%を実現",
+                    image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?q=80&w=800",
+                    link: "https://www.engineer-mikata.com/"
+                },
+                {
+                    title: "AI活用",
+                    desc: "最先端AIとコンテンツマーケティングによる原価・稼働の可視化と業務効率化",
+                    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=800"
+                },
+                {
+                    title: "資金調達力",
+                    desc: "「ドバイ総合研究所」運営による富裕層ネットワーク。複数案件で1〜数億円規模の調達実績",
+                    image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=800"
+                }
+            ],
+            portfolio: {
+                featured: {
+                    name: "エンジニアのミカタ",
+                    description: "SES事業者向けマッチングプラットフォーム",
+                    growth: "年商 10億円 → 40億円",
+                    website: "https://www.engineer-mikata.com/",
+                    achievements: ["採用単価▲30%", "登録エンジニア数大幅増加", "マッチング成約率向上"]
+                }
+            },
+            terms: {
+                multipleMin: 3.0,
+                multipleMax: 5.0,
+                earnout: { months: 12, kpi: "EBITDA達成度" },
+                closeSpeedDays: 14,
+                note: "※ 数値は目安です。個社の状況により変動します"
+            },
+            process: [
+                { step: "1", title: "NDA締結", desc: "秘密保持契約の締結" },
+                { step: "2", title: "情報開示", desc: "Teaser/CIM提供" },
+                { step: "3", title: "LOI提出", desc: "最短5営業日で意向表明" },
+                { step: "4", title: "DD実施", desc: "財務・法務・ビジネスDD" },
+                { step: "5", title: "クロージング", desc: "最終契約・譲渡実行" }
+            ],
+            lanes: {
+                corporate: {
+                    label: "企業買収",
+                    ticketSize: "〜数億円",
+                    multiple: "3〜5x EBITDA（原則）",
+                    target: "レガシー産業（建設、保全、製造下請け、清掃、相続）",
+                    cta: "NDA後に簡易CIM送付"
+                },
+                media: {
+                    label: "YouTube/メディア資産買収",
+                    ticketSize: "〜数千万円",
+                    multiple: "利益×~10倍（目安）",
+                    target: "金融・投資関連メディア、YouTubeチャンネル、オウンドメディア",
+                    cta: "資産評価のご相談"
+                }
+            },
+            disclaimer: "本サイトは情報提供のみを目的としており、投資勧誘ではありません。内容は予告なく変更される場合があります。",
+            team: [
+                {
+                    role: "代表パートナー",
+                    name: "松田 怜央",
+                    background: [
+                        "早稲田大学 政治経済学部",
+                        "デジタルマーケティング・YouTube運営",
+                        "複数の投資案件で資金調達実績"
+                    ]
+                },
+                {
+                    role: "投資担当",
+                    name: "メンバー2",
+                    background: [
+                        "大手証券会社出身",
+                        "M&Aアドバイザリー経験10年",
+                        "中小企業買収案件50件以上"
+                    ]
+                },
+                {
+                    role: "PMI/オペレーション担当",
+                    name: "メンバー3",
+                    background: [
+                        "事業会社での経営管理経験",
+                        "AI・システム導入支援",
+                        "採用・人事戦略立案"
+                    ]
+                },
+                {
+                    role: "財務・法務担当",
+                    name: "メンバー4",
+                    background: [
+                        "公認会計士/弁護士",
+                        "デューデリジェンス経験豊富",
+                        "上場準備支援実績"
+                    ]
+                }
+            ]
+        };
+
+        // Hero Component
+        const Hero = () => (
+            <div className="gradient-bg text-white py-24 md:py-32 px-4">
+                <div className="hero-overlay absolute inset-0 z-0"></div>
+                <div className="max-w-6xl mx-auto text-center relative z-10">
+                    <div className="mb-6">
+                        <div className="inline-block px-6 py-2 border border-white/30 rounded-full text-sm tracking-widest mb-8">
+                            MARUNOUCHI INVESTMENT GROUP
+                        </div>
+                    </div>
+                    <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6 text-shadow-premium leading-tight">
+                        {companyData.thesis.concept}
+                    </h1>
+                    <p className="text-lg md:text-xl mb-12 opacity-90 max-w-3xl mx-auto leading-relaxed" style={{fontWeight: 300}}>
+                        {companyData.thesis.subConcept}
+                    </p>
+                    <div className="grid grid-cols-3 gap-4 md:gap-8 mb-12 max-w-4xl mx-auto">
+                        {companyData.kpis.map((kpi, idx) => (
+                            <div key={idx} className="bg-white/5 backdrop-blur border border-white/20 rounded-lg p-6 md:p-8 hover:bg-white/10 transition">
+                                <div className="stat-number text-3xl md:text-5xl font-serif font-bold mb-2">{kpi.value}</div>
+                                <div className="text-xs md:text-sm opacity-90 mb-1">{kpi.unit}</div>
+                                <div className="text-xs opacity-70">{kpi.label}</div>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <a href="#contact" className="btn-primary text-white px-10 py-4 rounded font-semibold hover:scale-105 transition inline-block min-w-[200px]">
+                            面談を依頼する
+                        </a>
+                        <a href="#buybox" className="btn-secondary px-10 py-4 rounded font-semibold hover:scale-105 transition inline-block min-w-[200px]">
+                            投資対象を見る
+                        </a>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Strengths Component (Updated)
+        const Strengths = () => (
+            <div className="py-20 md:py-28 px-4 bg-white">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-sm tracking-widest text-gray-500 mb-4" style={{letterSpacing: '0.2em'}}>OUR STRENGTHS</h2>
+                        <h3 className="text-3xl md:text-4xl font-serif font-bold text-navy mb-6">
+                            当社の強み
+                        </h3>
+                        <div className="section-divider"></div>
+                    </div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {companyData.strengths.map((strength, idx) => (
+                            <div key={idx} className="card-premium p-8 rounded-lg hover:border-gold transition">
+                                <div className="w-12 h-1 bg-gold mb-6"></div>
+                                <div className="stat-number text-4xl font-serif mb-2">{strength.metric}</div>
+                                <div className="text-sm text-gray-500 mb-4">{strength.metricDetail}</div>
+                                <h3 className="text-xl font-bold mb-3 text-navy">{strength.title}</h3>
+                                <p className="text-gray-600 leading-relaxed text-sm" style={{fontWeight: 300}}>{strength.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Rollup Strategy Component
+        const RollupStrategy = () => (
+            <div className="py-20 md:py-28 px-4" style={{background: 'var(--gray-light)'}}>
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-sm tracking-widest text-gray-500 mb-4" style={{letterSpacing: '0.2em'}}>ROLLUP STRATEGY</h2>
+                        <h3 className="text-3xl md:text-4xl font-serif font-bold text-navy mb-6">
+                            {companyData.rollupStrategy.title}
+                        </h3>
+                        <div className="section-divider"></div>
+                        <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed" style={{fontWeight: 300}}>
+                            {companyData.rollupStrategy.description}
+                        </p>
+                    </div>
+
+                    {/* Target Industries */}
+                    <div className="mb-16">
+                        <h4 className="text-2xl font-bold text-center mb-8 text-navy">対象産業</h4>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                            {companyData.rollupStrategy.targetIndustries.map((industry, idx) => (
+                                <div key={idx} className="card-premium p-6 rounded-lg text-center hover:scale-105 transition">
+                                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-navy to-navy-light mx-auto mb-4 flex items-center justify-center">
+                                        <div className="w-8 h-8 border-2 border-gold rounded-full"></div>
+                                    </div>
+                                    <h5 className="text-xl font-bold mb-2 text-navy">{industry.name}</h5>
+                                    <p className="text-sm text-gray-600">{industry.description}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Phases */}
+                    <div>
+                        <h4 className="text-2xl font-bold text-center mb-8 text-navy">統合フェーズ</h4>
+                        <div className="grid md:grid-cols-2 gap-6">
+                            {companyData.rollupStrategy.phases.map((phase, idx) => (
+                                <div key={idx} className="card-premium p-8 rounded-lg flex items-start hover:border-gold transition">
+                                    <div className="bg-gradient-to-br from-navy to-navy-light text-white rounded-lg w-20 h-20 flex items-center justify-center mr-6 flex-shrink-0">
+                                        <div className="text-center">
+                                            <div className="text-xs mb-1 opacity-75">{phase.phase}</div>
+                                            <div className="text-2xl font-bold">{idx + 1}</div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h5 className="text-xl font-bold mb-2 text-navy">{phase.title}</h5>
+                                        <p className="text-gray-600 leading-relaxed" style={{fontWeight: 300}}>{phase.desc}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Rollup Visualization */}
+                    <div className="mt-16 card-premium rounded-lg p-12 premium-shadow">
+                        <div className="text-center mb-8">
+                            <h4 className="text-2xl font-bold text-navy mb-4">ロールアップモデル</h4>
+                            <p className="text-gray-600">プラットフォーム企業を核に、周辺企業を段階的に統合</p>
+                        </div>
+                        <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+                            <div className="text-center">
+                                <div className="w-32 h-32 rounded-full bg-gradient-to-br from-navy to-navy-light text-white flex items-center justify-center mx-auto mb-4">
+                                    <div className="text-center">
+                                        <div className="text-3xl font-bold mb-1">1</div>
+                                        <div className="text-xs">プラットフォーム</div>
+                                    </div>
+                                </div>
+                                <div className="font-bold text-navy">コア企業</div>
+                            </div>
+                            <div className="text-4xl text-gold hidden md:block">→</div>
+                            <div className="text-center">
+                                <div className="grid grid-cols-2 gap-4 mb-4">
+                                    {[2, 3, 4, 5].map((num) => (
+                                        <div key={num} className="w-20 h-20 rounded-full border-4 border-gold text-navy flex items-center justify-center font-bold text-xl">
+                                            {num}
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="font-bold text-navy">周辺企業統合</div>
+                            </div>
+                            <div className="text-4xl text-gold hidden md:block">→</div>
+                            <div className="text-center">
+                                <div className="w-32 h-32 rounded-full bg-gold text-navy flex items-center justify-center mx-auto mb-4">
+                                    <div className="text-center">
+                                        <div className="text-3xl font-bold mb-1">IPO</div>
+                                        <div className="text-xs">上場</div>
+                                    </div>
+                                </div>
+                                <div className="font-bold text-navy">価値最大化</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Buy Box Component
+        const BuyBoxCard = () => (
+            <div id="buybox" className="py-20 md:py-28 px-4 bg-white">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-sm tracking-widest text-gray-500 mb-4" style={{letterSpacing: '0.2em'}}>INVESTMENT CRITERIA</h2>
+                        <h3 className="text-3xl md:text-4xl font-serif font-bold text-navy mb-6">
+                            投資対象（Buy-Box）
+                        </h3>
+                        <div className="section-divider"></div>
+                    </div>
+                    <div className="card-premium rounded-lg p-8 md:p-12 premium-shadow">
+                        <div className="grid md:grid-cols-2 gap-12 mb-10">
+                            <div className="text-center md:text-left">
+                                <div className="text-sm tracking-wider text-gray-500 mb-3">年商レンジ</div>
+                                <div className="stat-number text-5xl font-serif mb-2">〜{companyData.buybox.revenueMax}</div>
+                                <div className="text-2xl font-bold text-navy mb-2">億円</div>
+                                <p className="text-sm text-gray-500">（シナジー高ければ〜10億円）</p>
+                            </div>
+                            <div className="text-center md:text-left">
+                                <div className="text-sm tracking-wider text-gray-500 mb-3">EBITDA</div>
+                                <div className="stat-number text-5xl font-serif mb-2">
+                                    {companyData.buybox.ebitdaMin}〜{companyData.buybox.ebitdaMax}
+                                </div>
+                                <div className="text-2xl font-bold text-navy">億円</div>
+                            </div>
+                        </div>
+                        <div className="border-t border-gray-200 pt-10 mb-10">
+                            <div className="text-sm tracking-wider text-gray-500 mb-4">対象地域</div>
+                            <p className="text-lg text-navy font-medium">{companyData.buybox.regions.join(", ")}</p>
+                        </div>
+                        <div className="border-t border-gray-200 pt-10 mb-10">
+                            <div className="text-sm tracking-wider text-gray-500 mb-4">優先取引先属性</div>
+                            <ul className="space-y-3">
+                                {companyData.buybox.preferred.map((item, idx) => (
+                                    <li key={idx} className="flex items-center text-navy">
+                                        <span className="w-2 h-2 bg-gold rounded-full mr-3"></span>
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="border-t border-gray-200 pt-10">
+                            <div className="text-sm tracking-wider text-red-600 mb-4">除外条件</div>
+                            <div className="flex flex-wrap gap-3">
+                                {companyData.buybox.exclusions.map((item, idx) => (
+                                    <span key={idx} className="px-5 py-2 border-2 border-red-200 text-red-700 rounded-full text-sm font-medium">
+                                        {item}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Marunouchi Office Section
+        const MarunouchiOffice = () => (
+            <div className="marunouchi-office-section py-20 md:py-28 px-4 text-white" style={{
+                backgroundImage: 'url(https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2400)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundAttachment: 'fixed'
+            }}>
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-12">
+                        <h2 className="text-sm tracking-widest mb-4 text-gold" style={{letterSpacing: '0.2em'}}>OUR OFFICE</h2>
+                        <h3 className="text-3xl md:text-4xl font-serif font-bold mb-6">
+                            丸の内 —— 日本の中心から
+                        </h3>
+                        <div className="section-divider"></div>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-lg p-8">
+                                <h4 className="text-2xl font-bold mb-6">{companyData.company.building}</h4>
+                                <div className="space-y-6 text-sm">
+                                    <div className="border-l-4 border-gold pl-4">
+                                        <div className="font-semibold mb-2 text-gold">所在地</div>
+                                        <div className="opacity-90">{companyData.company.address}</div>
+                                    </div>
+                                    <div className="border-l-4 border-gold pl-4">
+                                        <div className="font-semibold mb-2 text-gold">アクセス</div>
+                                        <div className="opacity-90">{companyData.company.station}</div>
+                                    </div>
+                                    <div className="border-l-4 border-gold pl-4">
+                                        <div className="font-semibold mb-2 text-gold">ロケーション</div>
+                                        <div className="opacity-90">皇居至近、丸の内ビジネス中核エリア</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="text-center md:text-left">
+                            <p className="text-lg leading-relaxed mb-6" style={{fontWeight: 300}}>
+                                東京駅徒歩5分、皇居を望む丸の内エリアに拠点を構え、
+                                日本を代表する金融街から全国のレガシー産業へ価値を届けます。
+                            </p>
+                            <p className="text-sm opacity-75 leading-relaxed">
+                                岸本ビルは三菱地所が管理する格式あるビジネスビル。
+                                1980年竣工、地上11階・地下2階建ての建物で、
+                                多くの企業がオフィスを構える信頼の場所です。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Portfolio Section
+        const Portfolio = () => (
+            <div className="py-20 md:py-28 px-4 bg-white">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-sm tracking-widest text-gray-500 mb-4" style={{letterSpacing: '0.2em'}}>PORTFOLIO</h2>
+                        <h3 className="text-3xl md:text-4xl font-serif font-bold text-navy mb-6">
+                            出資先実績
+                        </h3>
+                        <div className="section-divider"></div>
+                    </div>
+                    <div className="card-premium rounded-lg overflow-hidden premium-shadow">
+                        <div className="grid md:grid-cols-5 gap-0">
+                            <div className="md:col-span-2 bg-gradient-to-br from-navy to-navy-light p-12 text-white flex flex-col justify-center">
+                                <h4 className="text-3xl font-serif font-bold mb-4">{companyData.portfolio.featured.name}</h4>
+                                <p className="text-lg mb-6 opacity-90">{companyData.portfolio.featured.description}</p>
+                                <div className="stat-number text-4xl mb-6">{companyData.portfolio.featured.growth}</div>
+                                <a
+                                    href={companyData.portfolio.featured.website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-block border-2 border-gold text-gold px-6 py-3 rounded font-semibold hover:bg-gold hover:text-navy transition text-center"
+                                >
+                                    Website →
+                                </a>
+                            </div>
+                            <div className="md:col-span-3 p-12 bg-gray-50">
+                                <h5 className="text-sm tracking-wider text-gray-500 mb-6">主な成果</h5>
+                                <div className="space-y-4">
+                                    {companyData.portfolio.featured.achievements.map((achievement, idx) => (
+                                        <div key={idx} className="flex items-center">
+                                            <div className="w-8 h-8 rounded-full bg-gold text-navy flex items-center justify-center font-bold mr-4 flex-shrink-0">
+                                                {idx + 1}
+                                            </div>
+                                            <div className="text-lg text-navy">{achievement}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="mt-8 pt-8 border-t border-gray-300">
+                                    <p className="text-gray-600 leading-relaxed" style={{fontWeight: 300}}>
+                                        SES業界の課題であった採用コストと人材マッチング精度を、
+                                        デジタルプラットフォームとAI技術で解決。
+                                        出資後わずか数年で売上を4倍に成長させた代表的なケースです。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Synergy Grid Component with Images
+        const SynergyGrid = () => (
+            <div className="py-20 md:py-28 px-4 bg-white">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-sm tracking-widest text-gray-500 mb-4" style={{letterSpacing: '0.2em'}}>VALUE CREATION</h2>
+                        <h3 className="text-3xl md:text-4xl font-serif font-bold text-navy mb-6">
+                            シナジー創出
+                        </h3>
+                        <div className="section-divider"></div>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {companyData.synergy.map((item, idx) => (
+                            <div key={idx} className="card-premium rounded-lg overflow-hidden group">
+                                <div className="image-overlay h-64 relative">
+                                    <img
+                                        src={item.image}
+                                        alt={item.title}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    />
+                                </div>
+                                <div className="p-8">
+                                    <h3 className="text-2xl font-bold mb-4 text-navy">{item.title}</h3>
+                                    <p className="text-gray-600 leading-relaxed" style={{fontWeight: 300}}>{item.desc}</p>
+                                    {item.link && (
+                                        <a
+                                            href={item.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="inline-block mt-4 text-sm text-gold hover:text-navy transition font-semibold"
+                                        >
+                                            詳細を見る →
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Terms Card Component
+        const TermsCard = () => (
+            <div className="py-20 md:py-28 px-4" style={{background: 'var(--gray-light)'}}>
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-sm tracking-widest text-gray-500 mb-4" style={{letterSpacing: '0.2em'}}>TRANSACTION TERMS</h2>
+                        <h3 className="text-3xl md:text-4xl font-serif font-bold text-navy mb-6">
+                            取引条件
+                        </h3>
+                        <div className="section-divider"></div>
+                    </div>
+                    <div className="card-premium rounded-lg p-8 md:p-12 premium-shadow">
+                        <div className="grid md:grid-cols-2 gap-12 mb-12">
+                            <div className="text-center">
+                                <div className="text-sm tracking-wider text-gray-500 mb-4">バリュエーション倍率</div>
+                                <div className="stat-number text-5xl font-serif mb-3">
+                                    {companyData.terms.multipleMin}〜{companyData.terms.multipleMax}x
+                                </div>
+                                <div className="text-xl text-navy font-semibold mb-2">EBITDA</div>
+                                <p className="text-sm text-gray-500">（原則・目安）</p>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-sm tracking-wider text-gray-500 mb-4">クロージング期間</div>
+                                <div className="stat-number text-5xl font-serif mb-3">
+                                    {companyData.terms.closeSpeedDays}
+                                </div>
+                                <div className="text-xl text-navy font-semibold mb-2">営業日</div>
+                                <p className="text-sm text-gray-500">（DD期間含む）</p>
+                            </div>
+                        </div>
+                        <div className="border-t border-gray-200 pt-12 mb-8">
+                            <div className="text-sm tracking-wider text-gray-500 mb-4">アーンアウト条項</div>
+                            <p className="text-lg text-navy mb-3">
+                                {companyData.terms.earnout.months}ヶ月間の{companyData.terms.earnout.kpi}に基づく追加対価
+                            </p>
+                            <p className="text-sm text-gray-500">（ケースバイケースで柔軟に対応）</p>
+                        </div>
+                        <div className="bg-amber-50 border-l-4 border-gold p-6 rounded">
+                            <p className="text-sm text-gray-700">{companyData.terms.note}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Process Stepper Component
+        const ProcessStepper = () => (
+            <div className="py-20 md:py-28 px-4" style={{background: 'var(--gray-light)'}}>
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-sm tracking-widest text-gray-500 mb-4" style={{letterSpacing: '0.2em'}}>TRANSACTION PROCESS</h2>
+                        <h3 className="text-3xl md:text-4xl font-serif font-bold text-navy mb-6">
+                            取引プロセス
+                        </h3>
+                        <div className="section-divider"></div>
+                    </div>
+                    <div className="space-y-6">
+                        {companyData.process.map((item, idx) => (
+                            <div key={idx} className="card-premium p-8 rounded-lg flex items-start group">
+                                <div className="number-circle mr-6 flex-shrink-0 group-hover:border-navy transition">
+                                    {item.step}
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="text-2xl font-bold mb-2 text-navy">{item.title}</h3>
+                                    <p className="text-gray-600" style={{fontWeight: 300}}>{item.desc}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Lane Tabs Component
+        const LaneTabs = () => {
+            const [activeTab, setActiveTab] = useState('corporate');
+
+            return (
+                <div className="py-20 md:py-28 px-4 bg-white">
+                    <div className="max-w-6xl mx-auto">
+                        <div className="text-center mb-16">
+                            <h2 className="text-sm tracking-widest text-gray-500 mb-4" style={{letterSpacing: '0.2em'}}>TWO-LANE STRATEGY</h2>
+                            <h3 className="text-3xl md:text-4xl font-serif font-bold text-navy mb-6">
+                                2レーン戦略
+                            </h3>
+                            <div className="section-divider"></div>
+                        </div>
+                        <div className="flex mb-8 border-b-2 border-gray-200">
+                            <button
+                                onClick={() => setActiveTab('corporate')}
+                                className={`flex-1 py-4 font-bold text-lg transition relative ${
+                                    activeTab === 'corporate'
+                                        ? 'text-navy tab-underline'
+                                        : 'text-gray-400 hover:text-gray-600'
+                                }`}
+                            >
+                                {companyData.lanes.corporate.label}
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('media')}
+                                className={`flex-1 py-4 font-bold text-lg transition relative ${
+                                    activeTab === 'media'
+                                        ? 'text-navy tab-underline'
+                                        : 'text-gray-400 hover:text-gray-600'
+                                }`}
+                            >
+                                {companyData.lanes.media.label}
+                            </button>
+                        </div>
+                        <div className="card-premium rounded-lg p-8 md:p-12 premium-shadow">
+                            {activeTab === 'corporate' ? (
+                                <>
+                                    <h3 className="text-3xl font-serif font-bold mb-8 text-navy">
+                                        {companyData.lanes.corporate.label}
+                                    </h3>
+                                    <div className="space-y-6 mb-10">
+                                        <div>
+                                            <span className="text-sm tracking-wider text-gray-500 block mb-2">案件規模</span>
+                                            <span className="text-3xl font-bold text-navy">{companyData.lanes.corporate.ticketSize}</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-sm tracking-wider text-gray-500 block mb-2">バリュエーション</span>
+                                            <span className="text-xl text-navy">{companyData.lanes.corporate.multiple}</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-sm tracking-wider text-gray-500 block mb-2">対象</span>
+                                            <p className="text-navy leading-relaxed">{companyData.lanes.corporate.target}</p>
+                                        </div>
+                                    </div>
+                                    <a href="#contact" className="btn-primary text-white px-8 py-4 rounded font-semibold inline-block hover:scale-105 transition">
+                                        {companyData.lanes.corporate.cta}
+                                    </a>
+                                </>
+                            ) : (
+                                <>
+                                    <h3 className="text-3xl font-serif font-bold mb-8 text-navy">
+                                        {companyData.lanes.media.label}
+                                    </h3>
+                                    <div className="space-y-6 mb-10">
+                                        <div>
+                                            <span className="text-sm tracking-wider text-gray-500 block mb-2">案件規模</span>
+                                            <span className="text-3xl font-bold text-navy">{companyData.lanes.media.ticketSize}</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-sm tracking-wider text-gray-500 block mb-2">バリュエーション</span>
+                                            <span className="text-xl text-navy">{companyData.lanes.media.multiple}</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-sm tracking-wider text-gray-500 block mb-2">対象</span>
+                                            <p className="text-navy leading-relaxed">{companyData.lanes.media.target}</p>
+                                        </div>
+                                    </div>
+                                    <a href="#contact" className="btn-primary text-white px-8 py-4 rounded font-semibold inline-block hover:scale-105 transition">
+                                        {companyData.lanes.media.cta}
+                                    </a>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Team Section
+        const Team = () => (
+            <div className="py-20 md:py-28 px-4 bg-white">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-sm tracking-widest text-gray-500 mb-4" style={{letterSpacing: '0.2em'}}>INVESTMENT TEAM</h2>
+                        <h3 className="text-3xl md:text-4xl font-serif font-bold text-navy mb-6">
+                            投資・支援チーム
+                        </h3>
+                        <div className="section-divider"></div>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {companyData.team.map((member, idx) => (
+                            <div key={idx} className="card-premium p-8 rounded-lg hover:border-gold transition">
+                                <div className="flex items-start mb-6">
+                                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-navy to-navy-light flex items-center justify-center mr-4 flex-shrink-0">
+                                        <div className="text-white text-2xl font-bold">{idx + 1}</div>
+                                    </div>
+                                    <div>
+                                        <div className="text-sm text-gray-500 mb-1">{member.role}</div>
+                                        <h4 className="text-2xl font-bold text-navy">{member.name}</h4>
+                                    </div>
+                                </div>
+                                <div className="border-t border-gray-200 pt-6">
+                                    <h5 className="text-sm font-bold text-gray-500 mb-3">経歴・専門性</h5>
+                                    <ul className="space-y-2">
+                                        {member.background.map((item, bgIdx) => (
+                                            <li key={bgIdx} className="flex items-start text-gray-700">
+                                                <div className="w-1.5 h-1.5 rounded-full bg-gold mt-2 mr-3 flex-shrink-0"></div>
+                                                <span className="text-sm">{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Contact Section
+        const Contact = () => (
+            <div id="contact" className="py-20 md:py-28 px-4" style={{background: 'var(--gray-light)'}}>
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16">
+                        <h2 className="text-sm tracking-widest text-gray-500 mb-4" style={{letterSpacing: '0.2em'}}>CONTACT US</h2>
+                        <h3 className="text-3xl md:text-4xl font-serif font-bold text-navy mb-6">
+                            お問い合わせ
+                        </h3>
+                        <div className="section-divider"></div>
+                    </div>
+                    <div className="card-premium rounded-lg p-8 md:p-12 text-center premium-shadow">
+                        <h3 className="text-2xl md:text-3xl font-bold mb-4 text-navy">
+                            {companyData.company.name}
+                        </h3>
+                        <p className="text-gray-600 mb-2">{companyData.company.address}</p>
+                        <p className="text-sm text-gray-500 mb-8">{companyData.company.station}</p>
+                        <div className="space-y-3 mb-10">
+                            <div>
+                                <span className="text-sm tracking-wider text-gray-500">Email</span>
+                                <div className="mt-1">
+                                    <a href={`mailto:${companyData.company.contacts.email}`} className="text-navy hover:text-gold transition text-lg font-medium">
+                                        {companyData.company.contacts.email}
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <span className="text-sm tracking-wider text-gray-500">Tel</span>
+                                <div className="mt-1">
+                                    <a href={`tel:${companyData.company.contacts.tel}`} className="text-navy hover:text-gold transition text-lg font-medium">
+                                        {companyData.company.contacts.tel}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-2xl mx-auto">
+                            <a href={`mailto:${companyData.company.contacts.email}?subject=面談依頼`}
+                               className="btn-primary text-white px-8 py-4 rounded font-semibold hover:scale-105 transition flex-1">
+                                面談を依頼する
+                            </a>
+                            <a href={`mailto:${companyData.company.contacts.email}?subject=NDA締結希望`}
+                               className="btn-secondary px-8 py-4 rounded font-semibold hover:scale-105 transition flex-1">
+                                NDA締結を希望する
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Footer Component
+        const Footer = () => (
+            <footer className="bg-navy text-white py-12 px-4 mb-20 md:mb-0">
+                <div className="max-w-6xl mx-auto text-center">
+                    <div className="mb-6">
+                        <div className="text-2xl font-serif font-bold mb-2">{companyData.company.nameShort}</div>
+                        <div className="text-sm opacity-70">{companyData.company.name}</div>
+                    </div>
+                    <div className="border-t border-white/20 pt-6 mb-6">
+                        <p className="text-sm opacity-75 leading-relaxed max-w-3xl mx-auto">{companyData.disclaimer}</p>
+                    </div>
+                    <p className="text-xs opacity-50">
+                        © 2025 {companyData.company.name} All Rights Reserved.
+                    </p>
+                </div>
+            </footer>
+        );
+
+        // Fixed CTA Button (Mobile)
+        const FixedCTA = () => (
+            <div className="fixed-cta bg-white border-t border-gray-200 p-4 md:hidden">
+                <a href="#contact" className="block w-full btn-primary text-white text-center px-6 py-4 rounded font-bold">
+                    お問い合わせ
+                </a>
+            </div>
+        );
+
+        // Main App Component
+        const App = () => {
+            return (
+                <>
+                    <Hero />
+                    <MarunouchiOffice />
+                    <Strengths />
+                    <Portfolio />
+                    <RollupStrategy />
+                    <BuyBoxCard />
+                    <SynergyGrid />
+                    <TermsCard />
+                    <ProcessStepper />
+                    <LaneTabs />
+                    <Team />
+                    <Contact />
+                    <Footer />
+                    <FixedCTA />
+                </>
+            );
+        };
+
+        // Render
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>

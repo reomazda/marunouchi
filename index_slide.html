@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>丸の内インベストメントグループ | 会社概要資料</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Noto+Sans+JP:wght@300;400;500;600;700;800;900&family=Noto+Serif+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0a1628;
+            --navy-light: #1a2942;
+            --gold: #d4af37;
+            --gold-dark: #b8941f;
+            --gray-dark: #2d3748;
+            --gray-light: #f7f9fc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', YuGothic, Meiryo, sans-serif;
+            color: var(--navy);
+            background: #ffffff;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            font-feature-settings: 'palt';
+            letter-spacing: 0.04em;
+        }
+
+        .font-serif {
+            font-family: 'Playfair Display', 'Shippori Mincho', 'Noto Serif JP', 'Yu Mincho', YuMincho, serif;
+            font-feature-settings: 'palt';
+        }
+
+        /* Slide Container */
+        .slides-container {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Slide Header (PPT Style) */
+        .slide-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            background: rgba(255, 255, 255, 0.98);
+            border-bottom: 2px solid var(--gold);
+            z-index: 100;
+        }
+
+        .slide-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--navy);
+            letter-spacing: 0.05em;
+        }
+
+        .company-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            letter-spacing: 0.1em;
+        }
+
+        .company-logo-sub {
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: var(--gold);
+            letter-spacing: 0.15em;
+        }
+
+        /* Slide Footer */
+        .slide-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            background: rgba(255, 255, 255, 0.98);
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            z-index: 100;
+        }
+
+        .confidential {
+            font-size: 0.875rem;
+            color: var(--gold);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+        }
+
+        .slide-number {
+            font-size: 0.875rem;
+            color: var(--gray-dark);
+            opacity: 0.6;
+        }
+
+        /* Slide Content Area */
+        .slide-content {
+            flex: 1;
+            margin-top: 80px;
+            margin-bottom: 60px;
+            overflow-y: auto;
+            padding: 40px;
+        }
+
+        /* Navigation */
+        .slide-nav {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .slide-nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .slide-nav-dot.active {
+            background: var(--gold);
+            transform: scale(1.4);
+        }
+
+        .slide-nav-dot:hover {
+            background: var(--gold);
+        }
+
+        /* Card Styles */
+        .card-premium {
+            background: white;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-premium:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(10, 22, 40, 0.15);
+            border-color: var(--gold);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold) 0%, #f4d47c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            max-width: 200px;
+            margin: 0 auto 2rem;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gradient-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('./images/hero.png') center/cover no-repeat;
+            background-size: cover;
+            opacity: 0.5;
+            z-index: 0;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        .gradient-bg > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Mobile Overlay */
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .mobile-overlay.active {
+            display: flex;
+        }
+
+        .pdf-download-btn {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 16px 40px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 24px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .pdf-download-btn:hover {
+            background: var(--gold-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Responsive - Hide on mobile */
+        @media (max-width: 768px) {
+            .slides-container,
+            .slide-nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Overlay -->
+    <div id="mobile-overlay" class="mobile-overlay">
+        <div>
+            <h1 style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem; font-family: 'Playfair Display', serif;">丸の内インベストメントグループ</h1>
+            <h2 style="font-size: 1.25rem; margin-bottom: 1.5rem;">会社概要資料</h2>
+            <p style="font-size: 1.125rem; margin-bottom: 1rem; opacity: 0.9;">本資料はPC版での閲覧を推奨しております</p>
+            <p style="margin-bottom: 2rem; opacity: 0.75;">最適な表示のため、PDFをダウンロードしてご覧ください</p>
+            <button id="pdf-download-btn" style="background: #d4af37; color: #0a1628; padding: 16px 40px; border-radius: 8px; font-weight: 700; font-size: 1.125rem; border: none; cursor: pointer;">
+                PDF版をダウンロード
+            </button>
+            <p style="margin-top: 2rem; font-size: 0.875rem; opacity: 0.6;">または、PCでアクセスしてください</p>
+        </div>
+    </div>
+
+    <div id="root"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Data Configuration
+        const companyData = {
+            company: {
+                name: "丸の内インベストメントグループ株式会社",
+                nameEn: "MARUNOUCHI INVESTMENT GROUP",
+                nameShort: "MIG",
+                address: "〒100-0005 東京都千代田区丸の内１丁目１−３ 日本生命丸の内ガーデンタワー 3階",
+                building: "日本生命丸の内ガーデンタワー",
+                station: "東京駅 徒歩1分",
+                contacts: {
+                    email: "hi@reomazda.com",
+                    tel: "070-8444-3256"
+                },
+                established: "2025年",
+                capital: "100万円",
+                employees: "5名（外部パートナー含む）",
+                representative: "代表取締役 松田 怜央"
+            },
+            slides: [
+                {
+                    id: 'cover',
+                    title: '会社概要',
+                    type: 'cover'
+                },
+                {
+                    id: 'overview',
+                    title: '会社概要',
+                    type: 'overview'
+                },
+                {
+                    id: 'strengths',
+                    title: '当社の強み',
+                    type: 'strengths'
+                },
+                {
+                    id: 'portfolio',
+                    title: '出資先実績',
+                    type: 'portfolio'
+                },
+                {
+                    id: 'rollup',
+                    title: 'ロールアップ戦略',
+                    type: 'rollup'
+                },
+                {
+                    id: 'buybox',
+                    title: '投資対象',
+                    type: 'buybox'
+                },
+                {
+                    id: 'terms',
+                    title: '取引条件',
+                    type: 'terms'
+                },
+                {
+                    id: 'process',
+                    title: '取引プロセス',
+                    type: 'process'
+                },
+                {
+                    id: 'team',
+                    title: '投資チーム',
+                    type: 'team'
+                },
+                {
+                    id: 'contact',
+                    title: 'お問い合わせ',
+                    type: 'contact'
+                }
+            ],
+            thesis: {
+                concept: "隠れたバリューを掘り起こし、再定義する",
+                subConcept: "東京の一等地から、金融レバレッジ×AI×レガシー産業の統合を通じ、価値を最大化"
+            },
+            kpis: [
+                { label: "平均クロージング", value: "5-14", unit: "営業日" },
+                { label: "買収レンジ", value: "~10", unit: "億円" },
+                { label: "資金調達実績", value: "1-数億", unit: "円規模" }
+            ],
+            strengths: [
+                {
+                    title: "YouTube・SEO領域の知見",
+                    description: "複数チャンネルを運営し、特定ジャンルでSEO1位を多数獲得",
+                    metric: "SEO 1位",
+                    metricDetail: "複数ジャンル"
+                },
+                {
+                    title: "デジタル集客のコスト効率",
+                    description: "月間広告コスト120万円規模で30件以上のリード獲得",
+                    metric: "30〜50%",
+                    metricDetail: "業界平均よりコスト削減"
+                },
+                {
+                    title: "採用力",
+                    description: "SES会社「エンジニアのミカタ（年商10億→40億）」への出資実績。採用単価を業界平均比▲30%",
+                    metric: "3倍",
+                    metricDetail: "含み益（現在）"
+                },
+                {
+                    title: "資金調達力",
+                    description: "月間30件以上の富裕層問合せチャネルを持つ「ドバイ総合研究所」を運営",
+                    metric: "1〜数億円",
+                    metricDetail: "調達実績規模"
+                },
+                {
+                    title: "スピード",
+                    description: "M&A検討〜初回LOIまで最短5営業日",
+                    metric: "5営業日",
+                    metricDetail: "最短LOI提出"
+                }
+            ],
+            portfolio: {
+                name: "エンジニアのミカタ",
+                description: "SES事業者向けマッチングプラットフォーム",
+                growth: "年商 10億円 → 40億円",
+                website: "https://www.engineer-mikata.com/",
+                achievements: ["採用単価▲30%", "登録エンジニア数大幅増加", "マッチング成約率向上"]
+            },
+            rollupStrategy: {
+                title: "レガシー産業ロールアップ戦略",
+                description: "清掃、建設、製造下請けといった従来型産業を、丸の内から段階的に統合。デジタル化とAI活用で収益性を高め、IPOを目指します。",
+                targetIndustries: [
+                    { name: "清掃", description: "ビル・オフィス清掃、定期清掃" },
+                    { name: "建設保全", description: "設備保全、メンテナンス" },
+                    { name: "製造下請け", description: "部品製造、組立加工" },
+                    { name: "相続・不動産", description: "相続関連サービス" }
+                ],
+                phases: [
+                    { phase: "Phase 1", title: "プラットフォーム企業買収", desc: "基幹となる収益性の高い企業を取得" },
+                    { phase: "Phase 2", title: "周辺企業の統合", desc: "同業・関連業種を段階的に買収し規模を拡大" },
+                    { phase: "Phase 3", title: "デジタル化・PMI", desc: "AI・システム導入で業務効率化と採用力強化" },
+                    { phase: "Phase 4", title: "IPO準備", desc: "ガバナンス整備と上場準備を伴走" }
+                ]
+            },
+            buybox: {
+                revenueMin: 0,
+                revenueMax: 10,
+                ebitdaMin: 0.05,
+                ebitdaMax: 1,
+                regions: ["全国（首都圏・中部・関西・北陸優先）"],
+                preferred: ["法人・準公共取引", "継続契約・下請けライン可視"],
+                exclusions: ["訴訟", "債務超過", "規制リスク高"]
+            },
+            terms: {
+                multipleMin: 3.0,
+                multipleMax: 5.0,
+                earnout: { months: 12, kpi: "EBITDA達成度" },
+                closeSpeedDays: 14,
+                note: "※ 数値は目安です。個社の状況により変動します"
+            },
+            process: [
+                { step: "1", title: "NDA締結", desc: "秘密保持契約の締結" },
+                { step: "2", title: "情報開示", desc: "Teaser/CIM提供" },
+                { step: "3", title: "LOI提出", desc: "最短5営業日で意向表明" },
+                { step: "4", title: "DD実施", desc: "財務・法務・ビジネスDD" },
+                { step: "5", title: "クロージング", desc: "最終契約・譲渡実行" }
+            ],
+            team: [
+                {
+                    role: "代表パートナー",
+                    name: "松田 怜央",
+                    background: [
+                        "早稲田大学 政治経済学部",
+                        "デジタルマーケティング・YouTube運営",
+                        "複数の投資案件で資金調達実績"
+                    ]
+                },
+                {
+                    role: "投資担当",
+                    name: "メンバー2",
+                    background: [
+                        "大手証券会社出身",
+                        "M&Aアドバイザリー経験10年",
+                        "中小企業買収案件50件以上"
+                    ]
+                },
+                {
+                    role: "PMI/オペレーション担当",
+                    name: "メンバー3",
+                    background: [
+                        "事業会社での経営管理経験",
+                        "AI・システム導入支援",
+                        "採用・人事戦略立案"
+                    ]
+                },
+                {
+                    role: "財務・法務担当",
+                    name: "メンバー4",
+                    background: [
+                        "公認会計士/弁護士",
+                        "デューデリジェンス経験豊富",
+                        "上場準備支援実績"
+                    ]
+                }
+            ]
+        };
+
+        // Slide Navigation Component
+        const SlideNavigation = ({ currentSlide, totalSlides, onNavigate }) => (
+            <div className="slide-nav">
+                {[...Array(totalSlides)].map((_, idx) => (
+                    <div
+                        key={idx}
+                        className={`slide-nav-dot ${currentSlide === idx ? 'active' : ''}`}
+                        onClick={() => onNavigate(idx)}
+                    />
+                ))}
+            </div>
+        );
+
+        // Slide Header Component
+        const SlideHeader = ({ title }) => (
+            <div className="slide-header">
+                <div className="slide-title">{title}</div>
+                <div className="text-right">
+                    <div className="company-logo">{companyData.company.nameEn}</div>
+                    <div className="company-logo-sub">INVESTMENT GROUP</div>
+                </div>
+            </div>
+        );
+
+        // Slide Footer Component
+        const SlideFooter = ({ slideNumber, totalSlides }) => (
+            <div className="slide-footer">
+                <div className="confidential">CONFIDENTIAL</div>
+                <div className="slide-number">{slideNumber} / {totalSlides}</div>
+            </div>
+        );
+
+        // Cover Slide
+        const CoverSlide = () => (
+            <div className="gradient-bg text-white h-full flex items-center justify-center px-8">
+                <div className="text-center max-w-4xl mx-auto">
+                    <div className="inline-block mb-6">
+                        <div className="text-xs tracking-widest mb-2 opacity-75" style={{letterSpacing: '0.3em'}}>COMPANY OVERVIEW</div>
+                        <div className="text-base opacity-90" style={{fontWeight: 300, letterSpacing: '0.1em'}}>当社のご紹介</div>
+                    </div>
+                    <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6 leading-tight">
+                        {companyData.company.nameEn}
+                    </h1>
+                    <div className="w-20 h-0.5 bg-gold mx-auto mb-6"></div>
+                    <div className="text-xl md:text-2xl mb-3 font-light leading-relaxed" style={{letterSpacing: '0.05em'}}>
+                        {companyData.thesis.concept}
+                    </div>
+                    <div className="text-sm md:text-base opacity-80 max-w-2xl mx-auto leading-relaxed" style={{fontWeight: 300}}>
+                        {companyData.thesis.subConcept}
+                    </div>
+                    <div className="mt-12 pt-6 border-t border-white/20">
+                        <div className="text-xs tracking-widest opacity-60 mb-1" style={{letterSpacing: '0.2em'}}>VERSION</div>
+                        <div className="text-xs opacity-75">2025.01 - Confidential</div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Company Overview Slide
+        const OverviewSlide = () => (
+            <div className="max-w-6xl mx-auto">
+                <div className="grid md:grid-cols-2 gap-12">
+                    {/* Left Column - Company Info */}
+                    <div>
+                        <h2 className="text-2xl font-serif font-bold text-navy mb-8 pb-4 border-b-2 border-gold">基本情報</h2>
+                        <div className="space-y-6">
+                            <div className="flex border-b border-gray-200 pb-4">
+                                <div className="w-32 font-bold text-gray-600 flex-shrink-0">会社名</div>
+                                <div className="flex-1 text-navy">{companyData.company.name}</div>
+                            </div>
+                            <div className="flex border-b border-gray-200 pb-4">
+                                <div className="w-32 font-bold text-gray-600 flex-shrink-0">代表者</div>
+                                <div className="flex-1 text-navy">{companyData.company.representative}</div>
+                            </div>
+                            <div className="flex border-b border-gray-200 pb-4">
+                                <div className="w-32 font-bold text-gray-600 flex-shrink-0">設立</div>
+                                <div className="flex-1 text-navy">{companyData.company.established}</div>
+                            </div>
+                            <div className="flex border-b border-gray-200 pb-4">
+                                <div className="w-32 font-bold text-gray-600 flex-shrink-0">資本金</div>
+                                <div className="flex-1 text-navy">{companyData.company.capital}</div>
+                            </div>
+                            <div className="flex border-b border-gray-200 pb-4">
+                                <div className="w-32 font-bold text-gray-600 flex-shrink-0">従業員</div>
+                                <div className="flex-1 text-navy">{companyData.company.employees}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Column - Office Location */}
+                    <div>
+                        <h2 className="text-2xl font-serif font-bold text-navy mb-8 pb-4 border-b-2 border-gold">オフィス所在地</h2>
+                        <div className="card-premium p-8 rounded-lg">
+                            <h3 className="text-xl font-bold mb-6 text-navy">{companyData.company.building}</h3>
+                            <div className="space-y-6">
+                                <div className="border-l-4 border-gold pl-4">
+                                    <div className="font-semibold mb-2 text-gold text-sm">所在地</div>
+                                    <div className="text-gray-700 leading-relaxed">{companyData.company.address}</div>
+                                </div>
+                                <div className="border-l-4 border-gold pl-4">
+                                    <div className="font-semibold mb-2 text-gold text-sm">アクセス</div>
+                                    <div className="text-gray-700">{companyData.company.station}</div>
+                                </div>
+                                <div className="border-l-4 border-gold pl-4">
+                                    <div className="font-semibold mb-2 text-gold text-sm">Email</div>
+                                    <div className="text-gray-700">{companyData.company.contacts.email}</div>
+                                </div>
+                                <div className="border-l-4 border-gold pl-4">
+                                    <div className="font-semibold mb-2 text-gold text-sm">Tel</div>
+                                    <div className="text-gray-700">{companyData.company.contacts.tel}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Bottom - Vision Statement */}
+                <div className="mt-12 card-premium p-8 rounded-lg bg-gradient-to-r from-gray-50 to-white">
+                    <h3 className="text-xl font-bold mb-4 text-navy">投資方針</h3>
+                    <p className="text-lg text-gray-700 leading-relaxed">
+                        {companyData.thesis.concept}
+                        <br/>
+                        <span className="text-gray-600 text-base mt-2 block">
+                            {companyData.thesis.subConcept}
+                        </span>
+                    </p>
+                </div>
+            </div>
+        );
+
+        // Strengths Slide
+        const StrengthsSlide = () => (
+            <div className="max-w-6xl mx-auto">
+                <h2 className="text-3xl font-serif font-bold text-navy mb-8">当社の強み</h2>
+                <div className="grid md:grid-cols-3 gap-6">
+                    {companyData.strengths.map((strength, idx) => (
+                        <div key={idx} className="card-premium p-6 rounded-lg">
+                            <div className="w-12 h-1 bg-gold mb-4"></div>
+                            <div className="stat-number text-3xl font-serif mb-2">{strength.metric}</div>
+                            <div className="text-xs text-gray-500 mb-3">{strength.metricDetail}</div>
+                            <h3 className="text-lg font-bold mb-2 text-navy">{strength.title}</h3>
+                            <p className="text-gray-600 text-sm leading-relaxed">{strength.description}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+
+        // Portfolio Slide
+        const PortfolioSlide = () => (
+            <div className="max-w-5xl mx-auto">
+                <h2 className="text-3xl font-serif font-bold text-navy mb-8">出資先実績</h2>
+                <div className="card-premium rounded-lg overflow-hidden">
+                    <div className="grid md:grid-cols-5 gap-0">
+                        <div className="md:col-span-2 bg-gradient-to-br from-navy to-navy-light p-10 text-white flex flex-col justify-center">
+                            <h3 className="text-3xl font-serif font-bold mb-4">{companyData.portfolio.name}</h3>
+                            <p className="text-lg mb-6 opacity-90">{companyData.portfolio.description}</p>
+                            <div className="stat-number text-3xl mb-6">{companyData.portfolio.growth}</div>
+                        </div>
+                        <div className="md:col-span-3 p-10 bg-gray-50">
+                            <h4 className="text-sm font-bold text-gray-500 mb-4">主な成果</h4>
+                            <div className="space-y-3">
+                                {companyData.portfolio.achievements.map((achievement, idx) => (
+                                    <div key={idx} className="flex items-center">
+                                        <div className="w-6 h-6 rounded-full bg-gold text-navy flex items-center justify-center font-bold text-sm mr-3 flex-shrink-0">
+                                            {idx + 1}
+                                        </div>
+                                        <div className="text-navy">{achievement}</div>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="mt-6 pt-6 border-t border-gray-300">
+                                <p className="text-gray-600 text-sm leading-relaxed">
+                                    SES業界の課題であった採用コストと人材マッチング精度を、
+                                    デジタルプラットフォームとAI技術で解決。
+                                    出資後わずか数年で売上を4倍に成長させた代表的なケースです。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Rollup Slide
+        const RollupSlide = () => (
+            <div className="max-w-6xl mx-auto">
+                <h2 className="text-3xl font-serif font-bold text-navy mb-4">{companyData.rollupStrategy.title}</h2>
+                <p className="text-gray-600 mb-8">{companyData.rollupStrategy.description}</p>
+
+                <div className="grid grid-cols-4 gap-4 mb-8">
+                    {companyData.rollupStrategy.targetIndustries.map((industry, idx) => (
+                        <div key={idx} className="card-premium p-4 rounded-lg text-center">
+                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-navy to-navy-light mx-auto mb-3 flex items-center justify-center">
+                                <div className="w-6 h-6 border-2 border-gold rounded-full"></div>
+                            </div>
+                            <h5 className="text-lg font-bold mb-1 text-navy">{industry.name}</h5>
+                            <p className="text-xs text-gray-600">{industry.description}</p>
+                        </div>
+                    ))}
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-4">
+                    {companyData.rollupStrategy.phases.map((phase, idx) => (
+                        <div key={idx} className="card-premium p-6 rounded-lg flex items-start">
+                            <div className="bg-gradient-to-br from-navy to-navy-light text-white rounded-lg w-14 h-14 flex items-center justify-center mr-4 flex-shrink-0">
+                                <div className="text-center">
+                                    <div className="text-xs opacity-75">{phase.phase}</div>
+                                    <div className="text-xl font-bold">{idx + 1}</div>
+                                </div>
+                            </div>
+                            <div>
+                                <h5 className="text-lg font-bold mb-1 text-navy">{phase.title}</h5>
+                                <p className="text-gray-600 text-sm">{phase.desc}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+
+        // BuyBox Slide
+        const BuyBoxSlide = () => (
+            <div className="max-w-5xl mx-auto">
+                <h2 className="text-3xl font-serif font-bold text-navy mb-8">投資対象（Buy-Box）</h2>
+                <div className="card-premium rounded-lg p-8">
+                    <div className="grid md:grid-cols-2 gap-8 mb-8">
+                        <div className="text-center">
+                            <div className="text-sm text-gray-500 mb-2">年商レンジ</div>
+                            <div className="stat-number text-5xl font-serif mb-2">〜{companyData.buybox.revenueMax}</div>
+                            <div className="text-2xl font-bold text-navy">億円</div>
+                        </div>
+                        <div className="text-center">
+                            <div className="text-sm text-gray-500 mb-2">EBITDA</div>
+                            <div className="stat-number text-5xl font-serif mb-2">
+                                {companyData.buybox.ebitdaMin}〜{companyData.buybox.ebitdaMax}
+                            </div>
+                            <div className="text-2xl font-bold text-navy">億円</div>
+                        </div>
+                    </div>
+                    <div className="border-t border-gray-200 pt-6 mb-6">
+                        <div className="text-sm font-bold text-gray-500 mb-3">対象地域</div>
+                        <p className="text-lg text-navy">{companyData.buybox.regions.join(", ")}</p>
+                    </div>
+                    <div className="border-t border-gray-200 pt-6 mb-6">
+                        <div className="text-sm font-bold text-gray-500 mb-3">優先取引先属性</div>
+                        <ul className="space-y-2">
+                            {companyData.buybox.preferred.map((item, idx) => (
+                                <li key={idx} className="flex items-center text-navy">
+                                    <span className="w-2 h-2 bg-gold rounded-full mr-3"></span>
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="border-t border-gray-200 pt-6">
+                        <div className="text-sm font-bold text-red-600 mb-3">除外条件</div>
+                        <div className="flex flex-wrap gap-2">
+                            {companyData.buybox.exclusions.map((item, idx) => (
+                                <span key={idx} className="px-4 py-2 border-2 border-red-200 text-red-700 rounded-full text-sm">
+                                    {item}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Terms Slide
+        const TermsSlide = () => (
+            <div className="max-w-5xl mx-auto">
+                <h2 className="text-3xl font-serif font-bold text-navy mb-8">取引条件</h2>
+                <div className="card-premium rounded-lg p-8">
+                    <div className="grid md:grid-cols-2 gap-12 mb-10">
+                        <div className="text-center">
+                            <div className="text-sm text-gray-500 mb-3">バリュエーション倍率</div>
+                            <div className="stat-number text-5xl font-serif mb-2">
+                                {companyData.terms.multipleMin}〜{companyData.terms.multipleMax}x
+                            </div>
+                            <div className="text-xl text-navy font-semibold mb-2">EBITDA</div>
+                            <p className="text-sm text-gray-500">（原則・目安）</p>
+                        </div>
+                        <div className="text-center">
+                            <div className="text-sm text-gray-500 mb-3">クロージング期間</div>
+                            <div className="stat-number text-5xl font-serif mb-2">
+                                {companyData.terms.closeSpeedDays}
+                            </div>
+                            <div className="text-xl text-navy font-semibold mb-2">営業日</div>
+                            <p className="text-sm text-gray-500">（DD期間含む）</p>
+                        </div>
+                    </div>
+                    <div className="border-t border-gray-200 pt-8 mb-6">
+                        <div className="text-sm font-bold text-gray-500 mb-3">アーンアウト条項</div>
+                        <p className="text-lg text-navy mb-2">
+                            {companyData.terms.earnout.months}ヶ月間の{companyData.terms.earnout.kpi}に基づく追加対価
+                        </p>
+                        <p className="text-sm text-gray-500">（ケースバイケースで柔軟に対応）</p>
+                    </div>
+                    <div className="bg-amber-50 border-l-4 border-gold p-4 rounded">
+                        <p className="text-sm text-gray-700">{companyData.terms.note}</p>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Process Slide
+        const ProcessSlide = () => (
+            <div className="max-w-5xl mx-auto">
+                <h2 className="text-3xl font-serif font-bold text-navy mb-8">取引プロセス</h2>
+                <div className="space-y-4">
+                    {companyData.process.map((item, idx) => (
+                        <div key={idx} className="card-premium p-6 rounded-lg flex items-start">
+                            <div className="w-14 h-14 border-3 border-gold rounded-full flex items-center justify-center mr-6 flex-shrink-0">
+                                <div className="text-2xl font-bold text-navy">{item.step}</div>
+                            </div>
+                            <div>
+                                <h3 className="text-xl font-bold mb-1 text-navy">{item.title}</h3>
+                                <p className="text-gray-600">{item.desc}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+
+        // Team Slide
+        const TeamSlide = () => (
+            <div className="max-w-6xl mx-auto">
+                <h2 className="text-3xl font-serif font-bold text-navy mb-8">投資・支援チーム</h2>
+                <div className="grid md:grid-cols-2 gap-6">
+                    {companyData.team.map((member, idx) => (
+                        <div key={idx} className="card-premium p-6 rounded-lg">
+                            <div className="flex items-start mb-4">
+                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-navy to-navy-light flex items-center justify-center mr-3 flex-shrink-0">
+                                    <div className="text-white text-lg font-bold">{idx + 1}</div>
+                                </div>
+                                <div>
+                                    <div className="text-xs text-gray-500 mb-1">{member.role}</div>
+                                    <h4 className="text-xl font-bold text-navy">{member.name}</h4>
+                                </div>
+                            </div>
+                            <div className="border-t border-gray-200 pt-4">
+                                <h5 className="text-xs font-bold text-gray-500 mb-2">経歴・専門性</h5>
+                                <ul className="space-y-1">
+                                    {member.background.map((item, bgIdx) => (
+                                        <li key={bgIdx} className="flex items-start text-gray-700">
+                                            <div className="w-1 h-1 rounded-full bg-gold mt-2 mr-2 flex-shrink-0"></div>
+                                            <span className="text-sm">{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        );
+
+        // Contact Slide
+        const ContactSlide = () => (
+            <div className="max-w-4xl mx-auto">
+                <h2 className="text-3xl font-serif font-bold text-navy mb-8 text-center">お問い合わせ</h2>
+                <div className="card-premium rounded-lg p-10 text-center">
+                    <h3 className="text-2xl font-bold mb-4 text-navy">
+                        {companyData.company.name}
+                    </h3>
+                    <p className="text-gray-600 mb-2">{companyData.company.address}</p>
+                    <p className="text-sm text-gray-500 mb-8">{companyData.company.station}</p>
+                    <div className="space-y-3 mb-8">
+                        <div>
+                            <span className="text-sm text-gray-500">Email</span>
+                            <div className="mt-1">
+                                <a href={`mailto:${companyData.company.contacts.email}`} className="text-navy hover:text-gold transition text-lg font-medium">
+                                    {companyData.company.contacts.email}
+                                </a>
+                            </div>
+                        </div>
+                        <div>
+                            <span className="text-sm text-gray-500">Tel</span>
+                            <div className="mt-1">
+                                <a href={`tel:${companyData.company.contacts.tel}`} className="text-navy hover:text-gold transition text-lg font-medium">
+                                    {companyData.company.contacts.tel}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // Main App Component
+        const App = () => {
+            const [currentSlide, setCurrentSlide] = useState(0);
+            const totalSlides = companyData.slides.length;
+
+            useEffect(() => {
+                // Mobile Detection
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+                const mobileOverlay = document.getElementById('mobile-overlay');
+
+                if (isMobile && mobileOverlay) {
+                    mobileOverlay.classList.add('active');
+                }
+
+                // PDF Download Handler
+                const pdfBtn = document.getElementById('pdf-download-btn');
+                if (pdfBtn) {
+                    pdfBtn.addEventListener('click', generatePDF);
+                }
+
+                return () => {
+                    if (pdfBtn) {
+                        pdfBtn.removeEventListener('click', generatePDF);
+                    }
+                };
+            }, []);
+
+            const generatePDF = () => {
+                // Simple implementation - show message for now
+                alert('PDF生成機能は準備中です。PCブラウザの印刷機能（Ctrl+P / Cmd+P）をご利用ください。');
+                // TODO: Implement proper PDF generation or provide downloadable PDF file
+            };
+
+            useEffect(() => {
+                const handleWheel = (e) => {
+                    if (e.deltaY > 0 && currentSlide < totalSlides - 1) {
+                        setCurrentSlide(prev => prev + 1);
+                    } else if (e.deltaY < 0 && currentSlide > 0) {
+                        setCurrentSlide(prev => prev - 1);
+                    }
+                };
+
+                const handleKeyDown = (e) => {
+                    if (e.key === 'ArrowDown' && currentSlide < totalSlides - 1) {
+                        setCurrentSlide(prev => prev + 1);
+                    } else if (e.key === 'ArrowUp' && currentSlide > 0) {
+                        setCurrentSlide(prev => prev - 1);
+                    }
+                };
+
+                window.addEventListener('wheel', handleWheel, { passive: true });
+                window.addEventListener('keydown', handleKeyDown);
+
+                return () => {
+                    window.removeEventListener('wheel', handleWheel);
+                    window.removeEventListener('keydown', handleKeyDown);
+                };
+            }, [currentSlide, totalSlides]);
+
+            const renderSlideContent = (slideType) => {
+                switch(slideType) {
+                    case 'cover': return <CoverSlide />;
+                    case 'overview': return <OverviewSlide />;
+                    case 'strengths': return <StrengthsSlide />;
+                    case 'portfolio': return <PortfolioSlide />;
+                    case 'rollup': return <RollupSlide />;
+                    case 'buybox': return <BuyBoxSlide />;
+                    case 'terms': return <TermsSlide />;
+                    case 'process': return <ProcessSlide />;
+                    case 'team': return <TeamSlide />;
+                    case 'contact': return <ContactSlide />;
+                    default: return null;
+                }
+            };
+
+            return (
+                <>
+                    <div className="slides-container">
+                        {companyData.slides.map((slide, idx) => (
+                            <div
+                                key={slide.id}
+                                className="slide"
+                                style={{
+                                    transform: `translateY(${(idx - currentSlide) * 100}vh)`,
+                                    zIndex: idx === currentSlide ? 10 : 1
+                                }}
+                            >
+                                <SlideHeader title={slide.title} />
+                                <div className="slide-content">
+                                    {renderSlideContent(slide.type)}
+                                </div>
+                                <SlideFooter slideNumber={idx + 1} totalSlides={totalSlides} />
+                            </div>
+                        ))}
+                    </div>
+                    <SlideNavigation
+                        currentSlide={currentSlide}
+                        totalSlides={totalSlides}
+                        onNavigate={setCurrentSlide}
+                    />
+                </>
+            );
+        };
+
+        // Render
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
