@@ -1,0 +1,14 @@
+{
+  "name": "mig-company-overview",
+  "version": "1.0.0",
+  "description": "Marunouchi Investment Group - Company Overview",
+  "scripts": {
+    "generate-pdf": "node generate-pdf.js",
+    "dev": "python3 -m http.server 8000",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "puppeteer": "^22.0.0"
+  }
+}
