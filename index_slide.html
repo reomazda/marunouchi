@@ -44,6 +44,25 @@
             font-feature-settings: 'palt';
         }
 
+        /* Utility fallbacks for Tailwind-like classes (CDN theme-safe) */
+        .text-navy { color: var(--navy); }
+        .text-gold { color: var(--gold); }
+        .bg-navy { background-color: var(--navy); }
+        .bg-navy-light { background-color: var(--navy-light); }
+        .bg-gold { background-color: var(--gold); }
+        .border-gold { border-color: var(--gold); }
+        /* Opacity variants used in markup */
+        .border-white\/30 { border-color: rgba(255, 255, 255, 0.3); }
+        .border-navy\/20 { border-color: rgba(10, 22, 40, 0.2); }
+        .bg-navy\/5 { background-color: rgba(10, 22, 40, 0.05); }
+        /* Gradient color stops for Tailwind gradient helpers */
+        .from-navy {
+            --tw-gradient-from: var(--navy);
+            --tw-gradient-to: rgb(10 22 40 / 0);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+        }
+        .to-navy-light { --tw-gradient-to: var(--navy-light); }
+
         /* Slide Container */
         .slides-container {
             width: 100vw;
@@ -136,7 +155,7 @@
             margin-top: 80px;
             margin-bottom: 60px;
             overflow-y: auto;
-            padding: 40px;
+            padding: 30px 40px;
         }
 
         /* Navigation */
@@ -222,6 +241,74 @@
         .gradient-bg > * {
             position: relative;
             z-index: 1;
+        }
+
+        /* Portfolio Horizontal Scroll (Web only) */
+        .portfolio-scroll-container {
+            overflow-x: auto;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold) rgba(212, 175, 55, 0.2);
+        }
+
+        .portfolio-scroll-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .portfolio-scroll-container::-webkit-scrollbar-track {
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 4px;
+        }
+
+        .portfolio-scroll-container::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 4px;
+        }
+
+        .portfolio-scroll-container::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-dark);
+        }
+
+        .portfolio-cards-wrapper {
+            display: flex;
+            gap: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .portfolio-card {
+            min-width: 450px;
+            max-width: 450px;
+            flex-shrink: 0;
+        }
+
+        /* PDF/Print Layout - Grid instead of horizontal scroll */
+        @media print {
+            .portfolio-scroll-container {
+                overflow-x: visible;
+                overflow-y: visible;
+            }
+
+            .portfolio-cards-wrapper {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+                padding-bottom: 0;
+            }
+
+            .portfolio-card {
+                min-width: auto;
+                max-width: none;
+            }
+
+            /* Slightly reduce padding for PDF to fit better */
+            .portfolio-card .bg-gradient-to-br {
+                padding: 1rem !important;
+            }
+
+            .portfolio-card .bg-white {
+                padding: 1rem !important;
+            }
         }
 
         /* Mobile Overlay */
@@ -408,14 +495,55 @@
                     metricDetail: "最短LOI提出"
                 }
             ],
-            portfolio: {
-                name: "エンジニアのミカタ",
-                description: "SES事業者向けマッチングプラットフォーム",
-                growth: "年商 10億円 → 40億円",
-                irr: "数ヶ月で3倍以上のバリューアップを実現（高IRR）",
-                website: "https://www.engineer-mikata.com/",
-                achievements: ["数ヶ月で3倍以上の企業価値向上", "採用単価▲30%", "登録エンジニア数大幅増加"]
-            },
+            portfolios: [
+                {
+                    name: "エンジニアのミカタ",
+                    description: "SES事業者向けマッチングプラットフォーム",
+                    growth: "年商 10億円 → 40億円",
+                    irr: "数ヶ月で3倍以上のバリューアップを実現（高IRR）",
+                    website: "https://www.engineer-mikata.com/",
+                    logo: "https://www.engineer-mikata.com/favicon.ico",
+                    logoFallback: "E",
+                    achievements: ["数ヶ月で3倍以上の企業価値向上", "採用単価▲30%", "登録エンジニア数大幅増加"],
+                    detail: "SES業界の課題であった採用コストと人材マッチング精度を、デジタルプラットフォームとAI技術で解決。出資後わずか数ヶ月で企業価値を3倍以上に成長させた代表的なケースです。"
+                },
+                {
+                    name: "チケミー",
+                    company: "株式会社チケミー",
+                    description: "NFTチケット流通プラットフォーム",
+                    growth: "年商 数千万円 → 月間 数億円",
+                    irr: "ZVC/East Ventures等から資金調達済（1.4億円→2.2億円規模へ）",
+                    website: "https://ticketme.co.jp/",
+                    logo: "https://storage.googleapis.com/production-os-assets/assets/ea327dae-97a2-4e8a-8593-9d83e22b6775",
+                    logoFallback: "T",
+                    achievements: ["イベント主催者数500社突破", "NFTチケットの転売額還元モデルを創出", "大型アーティスト・ライブイベントとの提携進行中"],
+                    detail: "音楽・スポーツ・演劇分野を中心に、NFT技術でチケット流通の透明性・再販可能性を高めた次世代プラットフォームを展開。不正転売の防止と、二次流通時の収益還元モデルでエンタメ業界から支持を集めている。Web3×エンタメの旗手として注目される。"
+                },
+                {
+                    name: "不動産総合研究所",
+                    company: "株式会社不動産総合研究所",
+                    description: "不動産業界特化型転職プラットフォーム「宅建WORKS」",
+                    growth: "年商 非公開 → 約数億円規模",
+                    irr: "完全成果報酬型で高収益化を実現",
+                    website: "https://fudosoken.co.jp/",
+                    logo: "https://storage.googleapis.com/production-os-assets/assets/2eacd53a-d132-49f4-b3e5-a34554671043",
+                    logoFallback: "不",
+                    achievements: ["数千万円のリフォーム案件を多数受注", "完全成果報酬型で不動産企業の導入率が高水準", "DX化された履歴書解析・リマインド機能を提供"],
+                    detail: "不動産業界に特化した転職プラットフォーム「宅建WORKS」を開発・運営。不動産資格保有者や経験者を中心としたマッチングに強みを持ち、業界の人材不足という構造課題にフィットしたモデルを構築。"
+                },
+                {
+                    name: "ドバイ総合研究所",
+                    company: "ドバイ総合研究所",
+                    description: "富裕層向けドバイ移住・不動産・法人設立支援",
+                    growth: "年商 数千万円 → 数十億円",
+                    irr: "1年で累計不動産販売50億円突破",
+                    website: "https://driholdings.ae/",
+                    logo: "https://driholdings.ae/wp-content/themes/dubai-souken/assets/img/logo.png",
+                    logoFallback: "D",
+                    achievements: ["累計不動産販売50億円突破", "移住実績100人以上", "法人設立支援50社以上（上場企業含む）"],
+                    detail: "ドバイ移住・不動産購入・法人設立を一貫支援するハイネットワース個人向けコンサルティング会社。ドバイ現地での生活基盤構築を含むフルスタック支援により、日本国内の富裕層や経営者から高い信頼を獲得。"
+                }
+            ],
             rollupStrategy: {
                 title: "レガシー産業ロールアップ戦略",
                 description: "清掃、建設、製造下請けといった従来型産業を、丸の内から段階的に統合。デジタル化とAI活用で収益性を高め、IPOを目指します。",
@@ -437,16 +565,40 @@
                 revenueMax: 10,
                 ebitdaMin: 0.05,
                 ebitdaMax: 1,
+                dealSize: "〜10億円まで買収可能",
                 regions: ["全国（首都圏・中部・関西・北陸優先）"],
-                preferred: ["法人・準公共取引", "継続契約・下請けライン可視"],
-                exclusions: ["訴訟", "債務超過", "規制リスク高"]
+                targetIndustries: [
+                    { name: "清掃サービス", detail: "ビル・オフィス清掃、定期清掃、特殊清掃" },
+                    { name: "建設・保全", detail: "設備保全、メンテナンス、小規模工事" },
+                    { name: "製造下請け", detail: "部品製造、組立加工、OEM生産" },
+                    { name: "相続関連", detail: "相続コンサル、不動産仲介、士業サービス" }
+                ],
+                preferred: [
+                    { title: "取引先属性", items: ["法人取引中心（BtoB）", "準公共セクター取引", "リピート率の高い顧客基盤"] },
+                    { title: "ビジネスモデル", items: ["継続契約・定期収益", "下請けライン可視化済み", "参入障壁のある技術・ノウハウ"] },
+                    { title: "経営状態", items: ["EBITDA 5,000万円〜1億円", "安定したキャッシュフロー", "後継者不在または事業承継意向あり"] }
+                ],
+                exclusions: [
+                    { item: "訴訟", detail: "係争中の訴訟案件" },
+                    { item: "債務超過", detail: "実質債務超過の状態" },
+                    { item: "規制リスク高", detail: "法規制変更の影響が大きい事業" },
+                    { item: "依存リスク", detail: "特定顧客への売上依存度70%以上" }
+                ],
+                transaction: [
+                    { type: "株式譲渡", note: "原則" },
+                    { type: "事業譲渡", note: "ケースにより検討" },
+                    { type: "MBO支援", note: "経営陣による買収支援" }
+                ]
             },
             terms: {
                 multipleMin: 3.0,
                 multipleMax: 5.0,
-                earnout: { months: 12, kpi: "EBITDA達成度" },
+                earnout: {
+                    description: "パフォーマンス連動型の追加対価設計",
+                    note: "（業績目標達成度に応じて柔軟に設定）"
+                },
                 closeSpeedDays: 14,
-                note: "※ 数値は目安です。個社の状況により変動します"
+                note: "※ 条件は案件ごとに柔軟に対応いたします"
             },
             process: [
                 { step: "1", title: "NDA締結", desc: "秘密保持契約の締結" },
@@ -547,7 +699,7 @@
                     </div>
                     <div className="mt-12 pt-6 border-t border-white/20">
                         <div className="text-xs tracking-widest opacity-60 mb-1" style={{letterSpacing: '0.2em'}}>VERSION</div>
-                        <div className="text-xs opacity-75">2025.01 - Confidential</div>
+                        <div className="text-xs opacity-75">2025.02 - Confidential</div>
                     </div>
                 </div>
             </div>
@@ -644,43 +796,77 @@
         );
 
         // Portfolio Slide
-        const PortfolioSlide = () => (
-            <div className="max-w-5xl mx-auto">
-                <h2 className="text-3xl font-serif font-bold text-navy mb-8">出資先実績</h2>
-                <div className="card-premium rounded-lg overflow-hidden">
-                    <div className="grid md:grid-cols-5 gap-0">
-                        <div className="md:col-span-2 bg-gradient-to-br from-navy to-navy-light p-10 text-white flex flex-col justify-center">
-                            <h3 className="text-3xl font-serif font-bold mb-4">{companyData.portfolio.name}</h3>
-                            <p className="text-lg mb-6 opacity-90">{companyData.portfolio.description}</p>
-                            <div className="stat-number text-3xl mb-4">{companyData.portfolio.growth}</div>
-                            <div className="text-sm opacity-90 border-t border-white/30 pt-4">
-                                {companyData.portfolio.irr}
-                            </div>
-                        </div>
-                        <div className="md:col-span-3 p-10 bg-gray-50">
-                            <h4 className="text-sm font-bold text-gray-500 mb-4">主な成果</h4>
-                            <div className="space-y-3">
-                                {companyData.portfolio.achievements.map((achievement, idx) => (
-                                    <div key={idx} className="flex items-center">
-                                        <div className="w-6 h-6 rounded-full bg-gold text-navy flex items-center justify-center font-bold text-sm mr-3 flex-shrink-0">
-                                            {idx + 1}
+        const PortfolioSlide = () => {
+            const [logoErrors, setLogoErrors] = React.useState({});
+
+            const handleLogoError = (idx) => {
+                setLogoErrors(prev => ({...prev, [idx]: true}));
+            };
+
+            return (
+                <div className="max-w-7xl mx-auto">
+                    <h2 className="text-2xl font-serif font-bold text-navy mb-4">出資先実績</h2>
+                    <div className="portfolio-scroll-container">
+                        <div className="portfolio-cards-wrapper">
+                            {companyData.portfolios.map((portfolio, idx) => (
+                                <div key={idx} className="portfolio-card card-premium rounded-lg overflow-hidden">
+                                    <div className="bg-gradient-to-br from-navy to-navy-light p-5 text-white">
+                                        <div className="flex items-start mb-3">
+                                            <div className="w-14 h-14 bg-white rounded-lg flex items-center justify-center mr-3 flex-shrink-0 p-2" style={{minWidth: '56px'}}>
+                                                {!logoErrors[idx] ? (
+                                                    <img
+                                                        src={portfolio.logo}
+                                                        alt={portfolio.name}
+                                                        style={{
+                                                            maxWidth: '100%',
+                                                            maxHeight: '100%',
+                                                            objectFit: 'contain',
+                                                            width: 'auto',
+                                                            height: 'auto'
+                                                        }}
+                                                        onError={() => handleLogoError(idx)}
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-full bg-gradient-to-br from-gold to-amber-600 rounded flex items-center justify-center">
+                                                        <span className="text-navy font-bold text-xl">{portfolio.logoFallback}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                            <div className="flex-1">
+                                                <h3 className="text-lg font-serif font-bold mb-0.5" style={{color: '#ffffff'}}>{portfolio.name}</h3>
+                                                <p className="text-xs" style={{color: '#ffffff', opacity: 0.9}}>{portfolio.description}</p>
+                                            </div>
                                         </div>
-                                        <div className="text-navy">{achievement}</div>
+                                        <div className="border-t border-white/30 pt-3 mb-1">
+                                            <div className="text-xl font-serif font-bold mb-1" style={{color: '#ffffff'}}>{portfolio.growth}</div>
+                                            <div className="text-xs font-semibold" style={{color: '#d4af37', textShadow: '0 1px 3px rgba(0,0,0,0.4)'}}>
+                                                {portfolio.irr}
+                                            </div>
+                                        </div>
                                     </div>
-                                ))}
-                            </div>
-                            <div className="mt-6 pt-6 border-t border-gray-300">
-                                <p className="text-gray-600 text-sm leading-relaxed">
-                                    SES業界の課題であった採用コストと人材マッチング精度を、
-                                    デジタルプラットフォームとAI技術で解決。
-                                    出資後わずか数ヶ月で企業価値を3倍以上に成長させた代表的なケースです。
-                                </p>
-                            </div>
+                                    <div className="p-5 bg-white">
+                                        <h4 className="text-xs font-bold text-gray-500 mb-2">主な成果</h4>
+                                        <div className="space-y-1.5 mb-3">
+                                            {portfolio.achievements.map((achievement, achIdx) => (
+                                                <div key={achIdx} className="flex items-start">
+                                                    <span className="w-1 h-1 bg-gold rounded-full mr-2 mt-1.5 flex-shrink-0"></span>
+                                                    <div className="text-navy text-xs leading-snug">{achievement}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <div className="pt-3 border-t border-gray-200">
+                                            <p className="text-gray-600 text-xs leading-relaxed">
+                                                {portfolio.detail}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        };
 
         // Rollup Slide
         const RollupSlide = () => (
@@ -721,45 +907,90 @@
 
         // BuyBox Slide
         const BuyBoxSlide = () => (
-            <div className="max-w-5xl mx-auto">
-                <h2 className="text-3xl font-serif font-bold text-navy mb-8">投資対象（Buy-Box）</h2>
+            <div className="max-w-6xl mx-auto">
+                <h2 className="text-3xl font-serif font-bold text-navy mb-6">投資対象（Buy-Box）</h2>
                 <div className="card-premium rounded-lg p-8">
+                    {/* Deal Size */}
                     <div className="grid md:grid-cols-2 gap-8 mb-8">
+                        <div className="text-center">
+                            <div className="text-sm text-gray-500 mb-2">買収可能額</div>
+                            <div className="stat-number text-5xl font-serif mb-2">〜10</div>
+                            <div className="text-2xl font-bold text-navy">億円</div>
+                            <div className="text-xs text-gray-500 mt-2">{companyData.buybox.dealSize}</div>
+                        </div>
                         <div className="text-center">
                             <div className="text-sm text-gray-500 mb-2">年商レンジ</div>
                             <div className="stat-number text-5xl font-serif mb-2">〜{companyData.buybox.revenueMax}</div>
                             <div className="text-2xl font-bold text-navy">億円</div>
                         </div>
-                        <div className="text-center">
-                            <div className="text-sm text-gray-500 mb-2">EBITDA</div>
-                            <div className="stat-number text-5xl font-serif mb-2">
-                                {companyData.buybox.ebitdaMin}〜{companyData.buybox.ebitdaMax}
-                            </div>
-                            <div className="text-2xl font-bold text-navy">億円</div>
+                    </div>
+
+                    {/* Target Industries */}
+                    <div className="border-t border-gray-200 pt-6 mb-6">
+                        <div className="text-sm font-bold text-gray-500 mb-3">対象業種</div>
+                        <div className="grid md:grid-cols-2 gap-3">
+                            {companyData.buybox.targetIndustries.map((industry, idx) => (
+                                <div key={idx} className="flex items-start">
+                                    <span className="w-2 h-2 bg-gold rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                                    <div>
+                                        <span className="text-navy font-semibold">{industry.name}</span>
+                                        <span className="text-gray-600 text-sm ml-2">（{industry.detail}）</span>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
+
+                    {/* Regions */}
                     <div className="border-t border-gray-200 pt-6 mb-6">
                         <div className="text-sm font-bold text-gray-500 mb-3">対象地域</div>
                         <p className="text-lg text-navy">{companyData.buybox.regions.join(", ")}</p>
                     </div>
+
+                    {/* Preferred Criteria */}
                     <div className="border-t border-gray-200 pt-6 mb-6">
-                        <div className="text-sm font-bold text-gray-500 mb-3">優先取引先属性</div>
-                        <ul className="space-y-2">
-                            {companyData.buybox.preferred.map((item, idx) => (
-                                <li key={idx} className="flex items-center text-navy">
-                                    <span className="w-2 h-2 bg-gold rounded-full mr-3"></span>
-                                    {item}
-                                </li>
+                        <div className="text-sm font-bold text-gray-500 mb-4">優先条件</div>
+                        <div className="grid md:grid-cols-3 gap-6">
+                            {companyData.buybox.preferred.map((category, idx) => (
+                                <div key={idx}>
+                                    <div className="text-xs font-bold text-gold mb-2" style={{letterSpacing: '0.1em'}}>
+                                        {category.title}
+                                    </div>
+                                    <ul className="space-y-2">
+                                        {category.items.map((item, itemIdx) => (
+                                            <li key={itemIdx} className="flex items-start text-sm text-navy">
+                                                <span className="w-1.5 h-1.5 bg-navy rounded-full mr-2 mt-1.5 flex-shrink-0"></span>
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
-                    <div className="border-t border-gray-200 pt-6">
+
+                    {/* Exclusions */}
+                    <div className="border-t border-gray-200 pt-6 mb-6">
                         <div className="text-sm font-bold text-red-600 mb-3">除外条件</div>
-                        <div className="flex flex-wrap gap-2">
-                            {companyData.buybox.exclusions.map((item, idx) => (
-                                <span key={idx} className="px-4 py-2 border-2 border-red-200 text-red-700 rounded-full text-sm">
-                                    {item}
-                                </span>
+                        <div className="grid md:grid-cols-2 gap-3">
+                            {companyData.buybox.exclusions.map((exclusion, idx) => (
+                                <div key={idx} className="flex items-start px-4 py-3 border-2 border-red-200 rounded-lg bg-red-50">
+                                    <span className="text-red-700 font-bold text-sm mr-2 flex-shrink-0">{exclusion.item}</span>
+                                    <span className="text-red-600 text-xs mt-0.5">（{exclusion.detail}）</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Transaction Types */}
+                    <div className="border-t border-gray-200 pt-6">
+                        <div className="text-sm font-bold text-gray-500 mb-3">取引形態</div>
+                        <div className="flex flex-wrap gap-3">
+                            {companyData.buybox.transaction.map((trans, idx) => (
+                                <div key={idx} className="px-5 py-2 border-2 border-navy/20 bg-navy/5 rounded-full">
+                                    <span className="text-navy font-semibold text-sm">{trans.type}</span>
+                                    <span className="text-gray-600 text-xs ml-2">（{trans.note}）</span>
+                                </div>
                             ))}
                         </div>
                     </div>
@@ -778,24 +1009,24 @@
                             <div className="stat-number text-5xl font-serif mb-2">
                                 {companyData.terms.multipleMin}〜{companyData.terms.multipleMax}x
                             </div>
-                            <div className="text-xl text-navy font-semibold mb-2">EBITDA</div>
-                            <p className="text-sm text-gray-500">（原則・目安）</p>
+                            <div className="text-xl text-navy font-semibold mb-2">EBITDA マルチプル</div>
+                            <p className="text-sm text-gray-500">（案件により柔軟に対応）</p>
                         </div>
                         <div className="text-center">
                             <div className="text-sm text-gray-500 mb-3">クロージング期間</div>
                             <div className="stat-number text-5xl font-serif mb-2">
                                 {companyData.terms.closeSpeedDays}
                             </div>
-                            <div className="text-xl text-navy font-semibold mb-2">営業日</div>
-                            <p className="text-sm text-gray-500">（DD期間含む）</p>
+                            <div className="text-xl text-navy font-semibold mb-2">営業日程度</div>
+                            <p className="text-sm text-gray-500">（DD期間含む目安）</p>
                         </div>
                     </div>
                     <div className="border-t border-gray-200 pt-8 mb-6">
                         <div className="text-sm font-bold text-gray-500 mb-3">アーンアウト条項</div>
                         <p className="text-lg text-navy mb-2">
-                            {companyData.terms.earnout.months}ヶ月間の{companyData.terms.earnout.kpi}に基づく追加対価
+                            {companyData.terms.earnout.description}
                         </p>
-                        <p className="text-sm text-gray-500">（ケースバイケースで柔軟に対応）</p>
+                        <p className="text-sm text-gray-600">{companyData.terms.earnout.note}</p>
                     </div>
                     <div className="bg-amber-50 border-l-4 border-gold p-4 rounded">
                         <p className="text-sm text-gray-700">{companyData.terms.note}</p>
@@ -827,26 +1058,26 @@
         // Team Slide
         const TeamSlide = () => (
             <div className="max-w-6xl mx-auto">
-                <h2 className="text-3xl font-serif font-bold text-navy mb-8">投資・支援チーム</h2>
-                <div className="grid md:grid-cols-2 gap-6">
+                <h2 className="text-3xl font-serif font-bold text-navy mb-6">投資・支援チーム</h2>
+                <div className="grid md:grid-cols-2 gap-5">
                     {companyData.team.map((member, idx) => (
-                        <div key={idx} className="card-premium p-6 rounded-lg">
-                            <div className="flex items-start mb-4">
-                                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-navy to-navy-light flex items-center justify-center mr-3 flex-shrink-0">
-                                    <div className="text-white text-lg font-bold">{idx + 1}</div>
+                        <div key={idx} className="card-premium p-5 rounded-lg">
+                            <div className="flex items-start mb-3">
+                                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-navy to-navy-light flex items-center justify-center mr-3 flex-shrink-0">
+                                    <div className="text-white text-base font-bold">{idx + 1}</div>
                                 </div>
                                 <div>
-                                    <div className="text-xs text-gray-500 mb-1">{member.role}</div>
-                                    <h4 className="text-xl font-bold text-navy">{member.name}</h4>
+                                    <div className="text-xs text-gray-500 mb-0.5">{member.role}</div>
+                                    <h4 className="text-lg font-bold text-navy">{member.name}</h4>
                                 </div>
                             </div>
-                            <div className="border-t border-gray-200 pt-4">
+                            <div className="border-t border-gray-200 pt-3">
                                 <h5 className="text-xs font-bold text-gray-500 mb-2">経歴・専門性</h5>
                                 <ul className="space-y-1">
                                     {member.background.map((item, bgIdx) => (
                                         <li key={bgIdx} className="flex items-start text-gray-700">
-                                            <div className="w-1 h-1 rounded-full bg-gold mt-2 mr-2 flex-shrink-0"></div>
-                                            <span className="text-sm">{item}</span>
+                                            <div className="w-1 h-1 rounded-full bg-gold mt-1.5 mr-2 flex-shrink-0"></div>
+                                            <span className="text-xs leading-relaxed">{item}</span>
                                         </li>
                                     ))}
                                 </ul>
@@ -917,9 +1148,8 @@
             }, []);
 
             const generatePDF = () => {
-                // Simple implementation - show message for now
-                alert('PDF生成機能は準備中です。PCブラウザの印刷機能（Ctrl+P / Cmd+P）をご利用ください。');
-                // TODO: Implement proper PDF generation or provide downloadable PDF file
+                // Redirect to Google Drive link
+                window.location.href = 'https://drive.google.com/file/d/1OrWHFGA8njcB0TR09JTUk88CAjTDA4L4/view?usp=sharing';
             };
 
             useEffect(() => {

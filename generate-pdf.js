@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs');
+const { PDFDocument } = require('pdf-lib');
 
 async function generatePDF() {
     console.log('🚀 Starting PDF generation...');
@@ -19,6 +20,9 @@ async function generatePDF() {
         deviceScaleFactor: 2
     });
 
+    // Emulate print media for PDF layout
+    await page.emulateMediaType('print');
+
     // Load the HTML file
     const htmlPath = 'file://' + path.resolve(__dirname, 'index_slide.html');
     console.log('📄 Loading:', htmlPath);
@@ -29,10 +33,10 @@ async function generatePDF() {
     });
 
     // Wait for React to render
-    await page.waitForTimeout(2000);
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     const totalSlides = 10; // Update if you add more slides
-    const pdfPages = [];
+    const screenshots = [];
 
     console.log(`📊 Generating ${totalSlides} slides...`);
 
@@ -42,7 +46,7 @@ async function generatePDF() {
         // Navigate to slide by simulating arrow down
         if (i > 0) {
             await page.keyboard.press('ArrowDown');
-            await page.waitForTimeout(800); // Wait for transition
+            await new Promise(resolve => setTimeout(resolve, 800)); // Wait for transition
         }
 
         // Take screenshot of current slide
@@ -52,30 +56,34 @@ async function generatePDF() {
             omitBackground: false
         });
 
-        pdfPages.push(screenshot);
+        screenshots.push(screenshot);
     }
+
+    await browser.close();
 
     console.log('📝 Combining slides into PDF...');
 
-    // Create PDF with all slides
-    const pdf = await page.pdf({
-        format: 'A4',
-        landscape: true,
-        printBackground: true,
-        preferCSSPageSize: true,
-        margin: {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0
-        }
-    });
+    // Create PDF with all slides using pdf-lib
+    const pdfDoc = await PDFDocument.create();
+
+    for (let i = 0; i < screenshots.length; i++) {
+        console.log(`  Adding slide ${i + 1}/${screenshots.length} to PDF...`);
+        const pngImage = await pdfDoc.embedPng(screenshots[i]);
+        const page = pdfDoc.addPage([1920, 1080]);
+
+        page.drawImage(pngImage, {
+            x: 0,
+            y: 0,
+            width: 1920,
+            height: 1080,
+        });
+    }
+
+    const pdfBytes = await pdfDoc.save();
 
     // Save PDF
-    const outputPath = path.resolve(__dirname, 'MIG-Company-Overview.pdf');
-    fs.writeFileSync(outputPath, pdf);
-
-    await browser.close();
+    const outputPath = path.resolve(__dirname, 'MIG-Company-Overview-v2.pdf');
+    fs.writeFileSync(outputPath, pdfBytes);
 
     console.log('✅ PDF generated successfully!');
     console.log(`📍 Location: ${outputPath}`);
@@ -105,7 +113,7 @@ async function generateSlideImages() {
         timeout: 30000
     });
 
-    await page.waitForTimeout(2000);
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     const outputDir = path.resolve(__dirname, 'slides');
     if (!fs.existsSync(outputDir)) {
@@ -119,7 +127,7 @@ async function generateSlideImages() {
     for (let i = 0; i < totalSlides; i++) {
         if (i > 0) {
             await page.keyboard.press('ArrowDown');
-            await page.waitForTimeout(800);
+            await new Promise(resolve => setTimeout(resolve, 800));
         }
 
         const outputPath = path.join(outputDir, `slide-${String(i + 1).padStart(2, '0')}.png`);

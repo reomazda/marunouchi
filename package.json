@@ -7,7 +7,9 @@
     "dev": "python3 -m http.server 8000",
     "deploy": "vercel --prod"
   },
-  "dependencies": {},
+  "dependencies": {
+    "pdf-lib": "^1.17.1"
+  },
   "devDependencies": {
     "puppeteer": "^22.0.0"
   }
